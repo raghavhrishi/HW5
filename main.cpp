@@ -51,23 +51,31 @@ int main()
     int carCount;
     //Create a vector to store the cars
     vector < AccCar *> allCars;
-    //Create roads and push into a vector
-        Road road; 
-
+    //Create roads
+    Road road; 
+    int cooldown;
     stopwatch.reset();
     
     do {
-            //evaluate if another car can be added to the road
-            carCount = allCars.size();
-            if(carCount < 5 ){ 
-                AccCar newCar(carCount + 1, &road, 2^(carCount));
-                
-                if(carCount > 0){ 
-                    newCar.set_forward_car(allCars[carCount-1]);
-                    newCar.reset(rand() % 11 + 5);
-                }
-                allCars.push_back(&newCar);
+        //check the cooldown for adding cars to the road
+        if (cooldown == 0) {
+            //Check the number of cars on the road
+            if(carCount < 5) { 
+                //Create a new car
+                carCount ++;
+                AccCar newCar(carCount,&road,2^(carCount-1));
+                //First Car Check
+                if(carCount > 1){ 
+                    //check the distance to the next car on the road
+                    
+                }         
             }
+            //Set the cooldown for the next car
+            cooldown = rand() % 3;
+            } 
+            else { 
+                cooldown --; 
+        }
             //send the update signal
             road.let_cars_update();
             //wait for the cars to update

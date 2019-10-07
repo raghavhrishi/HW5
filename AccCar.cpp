@@ -1,5 +1,5 @@
 #include "AccCar.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 
 #define TICK 1000
