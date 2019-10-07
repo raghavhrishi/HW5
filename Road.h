@@ -13,12 +13,12 @@ public:
     EventFlags go_flags;
     EventFlags done_flags;
 
+    
     Road();
     void add_car(Car* car);
     void add_acc_car(AccCar* car);
     void let_cars_update();
     void wait_for_car_update();
-    int getCars();
     
 private:
     Car* car1;
