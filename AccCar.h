@@ -14,7 +14,7 @@ public:
     int speed;
     int flag;
     int counter;
-
+    
     AccCar(int id, Road* road, int flag);
     void set_forward_car(AccCar* car);
     void update();

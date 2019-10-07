@@ -13,7 +13,6 @@ void Road::add_car(Car* car) {
 void Road::add_acc_car(AccCar* car) {
     this->car2 = car;
     active_cars = active_cars | car->flag;
-    allCars.push_back(car);
 }
  
 void Road::let_cars_update() {
