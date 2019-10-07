@@ -1,11 +1,16 @@
 #include "AccCar.h"
 #include <stdlib.h>
 #include <algorithm>
+#include <queue>
 
 #define TICK 1000
 #define MONITOR_DIST 17
 #define SAFETY_GAP 2
 #define UCOUNT 5
+
+extern queue<AccCar *>  waiting_cars;
+extern Mutex queue_mutex;
+extern EventFlags allow_entry;
 
 AccCar::AccCar(int id, Road* road, int flag) {
     this->id = id;
@@ -21,6 +26,21 @@ void AccCar::set_forward_car(AccCar* car) {
 }
 
 void AccCar::update() {
+    //wait to enter the road
+    int randomwait = rand() % 3;
+    ThisThread::sleep_for(randomwait*1000);
+    //check other necessary road conditions
+    if(road->allCars.size()>0){ 
+        set_forward_car(road->allCars.size()-1);
+        while(forward_car->position < 2); 
+    }
+    //push into the main queue
+    queue_mutex.lock(); 
+        waiting_cars.push(this);
+    queue_mutex.unlock();
+    //wait for the okay from main  
+    allow_entry.wait_all(flag);
+
     while (true) {
         //sleep for 1 second
         ThisThread::sleep_for(TICK);

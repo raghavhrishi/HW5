@@ -12,9 +12,10 @@ class Road {
 public:
     EventFlags go_flags;
     EventFlags done_flags;
-
+    vector <AccCar *>  allCars;
     
     Road();
+    int getCars();
     void add_car(Car* car);
     void add_acc_car(AccCar* car);
     void let_cars_update();
