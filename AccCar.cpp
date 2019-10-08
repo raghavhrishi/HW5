@@ -16,7 +16,7 @@ AccCar::AccCar(int id, Road* road, int flag) {
     this->thread = NULL;
     //Set the position and speed to 0
     this->speed = 0;
-    this->position = 0;
+    this->position = -1;
    
 }
 
@@ -30,7 +30,7 @@ void AccCar::update() {
     int diff;
     int maxSafeSpeed;
     status =0;
-    
+
     while (true) {
         //sleep for 1 second and update control variables
         ThisThread::sleep_for(TICK);
@@ -62,7 +62,7 @@ void AccCar::update() {
             case 2: 
                 speed =1;
                 //Switch back to ACC State
-                if(position >56)
+                if(position >55)
                     status=0;
                 break;
         }
@@ -88,8 +88,8 @@ void AccCar::reset(int speed) {
     thread = new Thread();
     thread->start( callback(this, &AccCar::update) );
     
-    //this->position = 0;
-    //this->speed = speed;
+    this->position = 0;
+    this->speed = speed;
     this->target_speed = speed;
 }
 
