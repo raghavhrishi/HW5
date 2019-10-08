@@ -6,7 +6,6 @@
 #include "mbed.h"
 #include "vector"
 #include <cctype>
-#include "Car.h"
 #include "AccCar.h"
 #include "TextLCD.h"
 #include "Road.h"
@@ -15,28 +14,6 @@ Serial pc(USBTX, USBRX);
 TextLCD lcd(p15, p16, p17, p18, p19, p20);
 
 #define ROADLENGTH 100
-
-// Read the max number of services to perform from pc input
-int read_int(char* prompt) {
-    int maxService = 0;
-    
-    pc.printf(prompt);
-    
-    char input;
-    while(1) {
-        input = pc.getc();
-        pc.putc(input);
-        
-        if( std::isdigit(input) ) {
-            maxService = (maxService * 10) + (input-'0');   
-        } else {
-            pc.putc(input);
-            break;   
-        } 
-    }
-    
-    return maxService;
-}
 
 // main() runs in its own thread in the OS
 int main()
@@ -47,39 +24,58 @@ int main()
     int numberCycles = 0;
     int totalUpdateTime = 0;
     // ------------------------------------------------------------------------------
-    
-    int carCount;
-    //Create a vector to store the cars
-    vector < AccCar *> allCars;
-    //Create roads
+
+    //Create road
     Road road; 
-    int cooldown;
+    int cooldown=0;
+    int carCount=0;
+
+    //Instantiate all the cars
+    vector<AccCar *> allCars;
+
+    AccCar Car1(1,&road,1);
+    Car1.set_forward_car(NULL);
+    allCars.push_back(&Car1);
+
+    AccCar Car2(2,&road,2);
+    Car2.set_forward_car(&Car1);
+    allCars.push_back(&Car2);
+
+    AccCar Car3(3,&road,4);
+    Car3.set_forward_car(&Car2);
+    allCars.push_back(&Car3);
+
+    AccCar Car4(4,&road,8);
+    Car4.set_forward_car(&Car3);
+    allCars.push_back(&Car4);
+
+    AccCar Car5(5,&road,16);
+    Car5.set_forward_car(&Car4);
+    allCars.push_back(&Car5);
+
     stopwatch.reset();
-    
     do {
-        //check the cooldown for adding cars to the road
-        if (cooldown == 0) {
-            //Check the number of cars on the road
-            if(carCount < 5) { 
-                //Create a new car
-                carCount ++;
-                AccCar newCar(carCount,&road,2^(carCount-1));
-                //First Car Check
-                if(carCount > 1){ 
-                    //check the distance to the next car on the road
-                    
-                }         
-            }
-            //Set the cooldown for the next car
-            cooldown = rand() % 3;
-            } 
-            else { 
-                cooldown --; 
+        //check the cooldown 
+        if(cooldown == 0 && carCount<5) { 
+            allCars[carCount]->reset(rand() % 11+5);
+            road.add_acc_car(allCars[carCount]);
+            carCount ++;
+            cooldown = rand() %3;
         }
-            //send the update signal
-            road.let_cars_update();
-            //wait for the cars to update
-            road.wait_for_car_update();
+        else { 
+            cooldown--;
+        }
+        pc.printf("Letting Cars Update \r\n");
+        //send the update signal
+        road.let_cars_update();
+        pc.printf("Waiting for Response  \r\n");
+        //wait for the cars to update
+        road.wait_for_car_update();
+
+        //lcd.cls();
+        for (int i=0; i<5; i++){ 
+           pc.printf("Car %d Position %d : Speed %d \r\n",i+1,allCars[i]->position,allCars[i]->speed);
+        }
 
         // ------------------------------------------------------------------
         // Timing statistics logic, do not modify
@@ -88,11 +84,12 @@ int main()
         stopwatch.reset();
         // ------------------------------------------------------------------
         
-        lcd.cls();
-       // lcd.printf("1 %d -> %d\n2 %d -> %d", car1.position, car1.speed, car2.position, car2.speed);
-        
-    } while (allCars[5]->position <= ROADLENGTH); 
+    } while (allCars[4]->position <= ROADLENGTH); 
     
+    pc.printf("Stopping Simulation \r\n");
+    for (int i=0; i<5; i++){ 
+        allCars[i]->stop();
+    }
             // ----------------------------------------------------------------------
     // Timing statistics printout, do not modify
     pc.printf("Average update cycle took: %fms \r\n", (totalUpdateTime*1.0)/(numberCycles*1.0));
