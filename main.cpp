@@ -71,15 +71,19 @@ int main()
         pc.printf("---------------------\r\n",cooldown);
         //check the cooldown and car count
         out_string = "X,";
-        
-        if(cooldown <= 0 && carCount<5 && speed[carCount] <= (allCars[carCount-1]->position-2)) { 
+        //check cooldown period (random [0,3]) , Less than 5 cars on the road (carCount), and the speed of the car is less than the forward_car
+        if(cooldown <= 0 && carCount<5 && speed[carCount] <= (allCars[carCount]->forward_car->position-2)) { 
+            //Add the Car to the Road
             allCars[carCount]->reset(speed[carCount]);
             road.add_acc_car(allCars[carCount]);
             carCount ++;
             out_string = std::to_string(carCount) + ",";
             cooldown = rand() %4;   
+            pc.printf("Cooldown Timer:  %d \r\n",cooldown);
+
         }
         else { 
+            //decrement the cooldown (timer)
             cooldown--;
         }
         
@@ -89,12 +93,13 @@ int main()
         //wait for the cars to update
         road.wait_for_car_update();
 
+        //Cleat the 
         lcd.cls();
         intersector=0;
         for (int i=0; i<5; i++){ 
-            //pc.printf("Car %d: position %d, speed %d \r\n",i+1,allCars[i]->position,allCars[i]->speed);
+            pc.printf("Car %d: position %d, speed %d \r\n",i+1,allCars[i]->position,allCars[i]->speed);
             if(allCars[i]->position == 55 || allCars[i]->position == 55){ 
-                intersector = i+1;
+                intersector = allCars[i]->id;
             } 
         }
         // ------------------------------------------------------------------

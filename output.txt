@@ -1,0 +1,187 @@
+---------------------
+Cooldown Timer:  1
+Car 1: position 14, speed 14
+Car 2: position -1, speed 0
+Car 3: position -1, speed 0
+Car 4: position -1, speed 0
+Car 5: position -1, speed 0
+---------------------
+Car 1: position 28, speed 14
+Car 2: position -1, speed 0
+Car 3: position -1, speed 0
+Car 4: position -1, speed 0
+Car 5: position -1, speed 0
+---------------------
+Cooldown Timer:  0
+Car 1: position 42, speed 12
+Car 2: position 11, speed 11
+Car 3: position -1, speed 0
+Car 4: position -1, speed 0
+Car 5: position -1, speed 0
+---------------------
+Car 1: position 54, speed 0
+Car 2: position 22, speed 11
+Car 3: position -1, speed 0
+Car 4: position -1, speed 0
+Car 5: position -1, speed 0
+---------------------
+Cooldown Timer:  3
+Car 1: position 54, speed 1
+Car 2: position 33, speed 11
+Car 3: position 10, speed 10
+Car 4: position -1, speed 0
+Car 5: position -1, speed 0
+---------------------
+Car 1: position 55, speed 1
+Car 2: position 44, speed 6
+Car 3: position 20, speed 10
+Car 4: position -1, speed 0
+Car 5: position -1, speed 0
+---------------------
+Car 1: position 56, speed 1
+Car 2: position 50, speed 4
+Car 3: position 30, speed 10
+Car 4: position -1, speed 0
+Car 5: position -1, speed 0
+---------------------
+Car 1: position 57, speed 10
+Car 2: position 54, speed 0
+Car 3: position 40, speed 12
+Car 4: position -1, speed 0
+Car 5: position -1, speed 0
+---------------------
+Cooldown Timer:  1
+Car 1: position 67, speed 10
+Car 2: position 54, speed 1
+Car 3: position 52, speed 0
+Car 4: position 6, speed 6
+Car 5: position -1, speed 0
+---------------------
+Car 1: position 77, speed 8
+Car 2: position 55, speed 1
+Car 3: position 52, speed 1
+Car 4: position 12, speed 6
+Car 5: position -1, speed 0
+---------------------
+Cooldown Timer:  2
+Car 1: position 85, speed 8
+Car 2: position 56, speed 1
+Car 3: position 53, speed 1
+Car 4: position 18, speed 6
+Car 5: position 5, speed 5
+---------------------
+Car 1: position 93, speed 8
+Car 2: position 57, speed 6
+Car 3: position 54, speed 0
+Car 4: position 24, speed 5
+Car 5: position 10, speed 5
+---------------------
+Car 1: position 101, speed 10
+Car 2: position 63, speed 6
+Car 3: position 54, speed 1
+Car 4: position 29, speed 5
+Car 5: position 15, speed 5
+---------------------
+Car 1: position 111, speed 10
+Car 2: position 69, speed 6
+Car 3: position 55, speed 1
+Car 4: position 34, speed 5
+Car 5: position 20, speed 12
+---------------------
+Car 1: position 121, speed 10
+Car 2: position 75, speed 9
+Car 3: position 56, speed 1
+Car 4: position 39, speed 8
+Car 5: position 32, speed 5
+---------------------
+Car 1: position 131, speed 5
+Car 2: position 84, speed 9
+Car 3: position 57, speed 6
+Car 4: position 47, speed 7
+Car 5: position 37, speed 8
+---------------------
+Car 1: position 136, speed 5
+Car 2: position 93, speed 9
+Car 3: position 63, speed 5
+Car 4: position 54, speed 0
+Car 5: position 45, speed 7
+---------------------
+Car 1: position 141, speed 5
+Car 2: position 102, speed 7
+Car 3: position 68, speed 5
+Car 4: position 54, speed 1
+Car 5: position 52, speed 0
+---------------------
+Car 1: position 146, speed 10
+Car 2: position 109, speed 7
+Car 3: position 73, speed 5
+Car 4: position 55, speed 1
+Car 5: position 52, speed 1
+---------------------
+Car 1: position 156, speed 10
+Car 2: position 116, speed 7
+Car 3: position 78, speed 6
+Car 4: position 56, speed 1
+Car 5: position 53, speed 1
+---------------------
+Car 1: position 166, speed 10
+Car 2: position 123, speed 10
+Car 3: position 84, speed 6
+Car 4: position 57, speed 13
+Car 5: position 54, speed 0
+---------------------
+Car 1: position 176, speed 11
+Car 2: position 133, speed 10
+Car 3: position 90, speed 6
+Car 4: position 70, speed 13
+Car 5: position 54, speed 1
+---------------------
+Car 1: position 187, speed 11
+Car 2: position 143, speed 10
+Car 3: position 96, speed 13
+Car 4: position 83, speed 11
+Car 5: position 55, speed 1
+---------------------
+Car 1: position 198, speed 11
+Car 2: position 153, speed 8
+Car 3: position 109, speed 13
+Car 4: position 94, speed 8
+Car 5: position 56, speed 1
+---------------------
+Car 1: position 209, speed 5
+Car 2: position 161, speed 8
+Car 3: position 122, speed 13
+Car 4: position 102, speed 8
+Car 5: position 57, speed 14
+---------------------
+Car 1: position 214, speed 5
+Car 2: position 169, speed 8
+Car 3: position 135, speed 6
+Car 4: position 110, speed 8
+Car 5: position 71, speed 9
+---------------------
+Car 1: position 219, speed 5
+Car 2: position 177, speed 8
+Car 3: position 141, speed 6
+Car 4: position 118, speed 14
+Car 5: position 80, speed 9
+---------------------
+Car 1: position 224, speed 10
+Car 2: position 185, speed 8
+Car 3: position 147, speed 6
+Car 4: position 132, speed 13
+Car 5: position 89, speed 9
+---------------------
+Car 1: position 234, speed 10
+Car 2: position 193, speed 8
+Car 3: position 153, speed 11
+Car 4: position 145, speed 6
+Car 5: position 98, speed 13
+---------------------
+Car 1: position 244, speed 10
+Car 2: position 201, speed 5
+Car 3: position 164, speed 11
+Car 4: position 151, speed 6
+Car 5: position 111, speed 13
+Stopping Simulation
+Average update cycle took: 1027.500000ms

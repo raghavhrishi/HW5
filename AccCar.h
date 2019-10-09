@@ -14,8 +14,9 @@ public:
     int position;
     int speed;
     int flag;
+    int id;
+
     AccCar* forward_car;
-    
     AccCar(int id, Road* road, int flag);
     void set_forward_car(AccCar* car);
     void update();
@@ -23,9 +24,8 @@ public:
     void stop();
     
 protected:
-    int id;
     int target_speed;
-    
+
     Road* road;
     Thread* thread; 
 };
