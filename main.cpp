@@ -98,7 +98,7 @@ int main()
         intersector=0;
         for (int i=0; i<5; i++){ 
             pc.printf("Car %d: position %d, speed %d \r\n",i+1,allCars[i]->position,allCars[i]->speed);
-            if(allCars[i]->position == 55 || allCars[i]->position == 56){ 
+            if(allCars[i]->position == 55 ){ 
                 intersector = allCars[i]->id;
             } 
         }
