@@ -1,84 +1,111 @@
 #include "AccCar.h"
-#include <cstdlib>
+#include <stdlib.h>
 #include <algorithm>
-#include <rtos.h>
+#include <vector>
 
 #define TICK 1000
 #define MONITOR_DIST 17
 #define SAFETY_GAP 2
 
-
+EXTERN vector <AccCar *> car_queue;
+EXTERN Mutex queue_lock;
 
 AccCar::AccCar(int id, Road* road, int flag) {
     this->id = id;
     this->road = road;
     this->flag = flag;
+    
+    queue_request = false;
+    waited = false;
+        
     this->thread = NULL;
-    //Set the position and speed to 0
-    this->speed = 0;
-    this->position = -1;
-   
 }
 
 void AccCar::set_forward_car(AccCar* car) {
     this->forward_car = car;   
 }
 
-void AccCar::update() {
-    //----------------Initialization--------------------
-    int counter;
-    int diff;
-    int maxSafeSpeed;
-    status =0;
-
-    while (true) {
-        //sleep for 1 second and update control variables
-        ThisThread::sleep_for(TICK);
-        road->go_flags.wait_all(flag);
-        position = position + speed;
-        //----------------Apply State Logic--------------------
-        switch(status){
-            case 0:
-                //Evaluate distance to nearest vehicle
-                    if(forward_car->position - position < MONITOR_DIST) { 
-                        road->done_flags.wait_all(forward_car->flag, osWaitForever, false);
-                        diff = forward_car->position - position;
-                        maxSafeSpeed = diff - SAFETY_GAP;
-                        speed = std::min(maxSafeSpeed, target_speed);
-                } else { 
-                    speed = target_speed;
-                }
-                //Evaluate distance to intersection and override
-                if(position+speed >=54 && position <55){ 
-                    speed = 54-position;
-                    status = 1;
-                }
-               break;
-            case 1:
-                speed = 0;
-                //Switch to the Intersect State
-                status = 2;
-                break;
-            case 2: 
-                speed =1;
-                //Switch back to ACC State
-                if(position >55)
-                    status=0;
-                break;
-        }
-
-        counter ++ ;
-        if(counter == 5){ 
-            target_speed = rand()%11+5;
-            counter = 0;
-        } else { counter ++;}
-
-        //Done Updating - Continue Break Point
-        road->done_flags.set(flag);   
-    }
+void AccCar::set_target_speed(int speed) {
+    this->target_speed = speed;
+    this->speed = speed;   
 }
 
-void AccCar::reset(int speed) {
+void AccCar::update() {
+    do {
+        ThisThread::sleep_for(TICK);
+        road->go_flags.wait_all(flag);
+        cycle++;   
+        position = position + speed;
+        
+        if (cycle % 5 == 0) {
+            target_speed = rand() % 11 + 5;
+        }
+        
+        if( position < 54 ) {       
+            if (forward_car != NULL && forward_car->position > -1) {
+                if (forward_car->position - position < MONITOR_DIST && forward_car->position < 55) {
+                    road->done_flags.wait_all(forward_car->flag, osWaitForever, false);
+                    
+                    int diff = forward_car->position - position;
+                    int maxSafeSpeed = diff - SAFETY_GAP;
+                    
+                    speed = std::min(maxSafeSpeed, target_speed);
+                } else {
+                    speed = target_speed;   
+                }
+            } else {
+                speed = target_speed;
+            }
+            
+            int distance_to_intersection = 54 - position;
+            speed = std::min(distance_to_intersection, speed);
+                  
+        } else if( position == 54 ) {
+            queue_request++; 
+            if( waited) {
+                queue_lock.lock();
+                if((car_queue.at(0)->id == this->id) && (car_queue.at(0)->road->id == this->road->id)){
+                    road->intersection_car = id;
+                    speed = 1;
+                }
+                queue_lock.unlock(); 
+            } else {
+                speed = 0;   
+                waited = true;
+                
+            }
+
+        } else if( position < 56 ) {
+            speed = 1;
+        } else {
+            if( position == 56 ) {
+                queue_lock.lock();
+                car_queue.erase(car_queue.begin());
+                queue_lock.unlock(); 
+                road->intersection_car = -1;
+                
+            }
+            
+            if (forward_car != NULL && forward_car->position > -1) {
+                if (forward_car->position - position < MONITOR_DIST ) {
+                    road->done_flags.wait_all(forward_car->flag, osWaitForever, false);
+                    int diff = forward_car->position - position;
+                    int maxSafeSpeed = diff - SAFETY_GAP;
+                    speed = std::min(maxSafeSpeed, target_speed);
+                } else {
+                    speed = target_speed;   
+                }
+
+            } else {
+                speed = target_speed;
+            }
+        } 
+        
+        road->done_flags.set(flag);   
+    } while( position < 100 );
+}
+
+void AccCar::reset() {
     road->done_flags.clear(flag);
     
     if (thread != NULL) {
@@ -89,12 +116,5 @@ void AccCar::reset(int speed) {
     thread->start( callback(this, &AccCar::update) );
     
     this->position = 0;
-    this->speed = speed;
-    this->target_speed = speed;
-}
-
-void AccCar::stop() {
-    if (thread != NULL) {
-        thread->terminate();   
-    }   
+    this->cycle = 0;
 }

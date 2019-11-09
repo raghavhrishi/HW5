@@ -1,0 +1,7 @@
+{
+    "target_overrides": {
+        "*": {
+            "rtos.thread-stack-size": 512
+            }
+    }
+}

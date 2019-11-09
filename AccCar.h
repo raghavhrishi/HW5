@@ -5,28 +5,32 @@
 #include "Road.h"
 
 class Road;
-class Car;
-//enum OPCODE {ACC=0,APPROACH=1,INTERSECT=2,CHANGETGT=3,STOP=4};
 
 class AccCar{
 public:
-    int status;
+    int id;
     int position;
     int speed;
     int flag;
-    int id;
-
-    AccCar* forward_car;
+    int queue_request;
+    
+    
     AccCar(int id, Road* road, int flag);
+    
     void set_forward_car(AccCar* car);
+    void set_target_speed(int speed);
     void update();
-    void reset(int speed);
-    void stop();
+    void reset();
+    Road* road;
     
 protected:
     int target_speed;
-
-    Road* road;
+    bool waited;
+    int cycle;
+    
+    AccCar* forward_car;
+    
+   
     Thread* thread; 
 };
 #endif
